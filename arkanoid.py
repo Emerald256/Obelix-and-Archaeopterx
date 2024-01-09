@@ -29,18 +29,18 @@ def main():
     window_size = (window_width, window_height)
     screen = pygame.display.set_mode(window_size, flags)
     pygame.display.set_caption("ZzeRoTiMe Project")
-    windowUpdate()
+    window_update()
     while True:
-        runArch(0)
+        run_arch(0)
 
 
-def windowUpdate():
+def window_update():
     screen.fill(background_color)
-    createPlatform()
+    create_platform()
     pygame.display.update()
 
 
-def createPlatform():
+def create_platform():
     global platform_pos, platform_width, platform_height
     platform_width = window_width // 14
     platform_height = 10
@@ -51,7 +51,7 @@ def createPlatform():
     pygame.draw.rect(screen, BLACK, (platform_pos[0], platform_pos[1], platform_width, platform_height))
 
 
-def showPauseText():
+def show_pause_text():
     font_pause = pygame.font.Font(None, 72)
     text_pause = font_pause.render("Пауза", False, BLACK)
     text_width, text_height = font_pause.size("Пауза")
@@ -62,11 +62,11 @@ def showPauseText():
     text_width, text_height = font_continue.size("Нажмите пробел, чтобы продолжить")
     screen.blit(text_continue, (window_width // 2 - text_width // 2, window_height // 1.75))
 
-def showPauseScreen():
+def show_pause_screen():
     global window_width, window_height
     pause = pygame.Surface((window_width, window_height), pygame.SRCALPHA)
     pause.fill((63, 72, 204, 127))
-    showPauseText()
+    show_pause_text()
     screen.blit(pause, (0, 0))
     pygame.display.update()
     while pause:
@@ -78,8 +78,8 @@ def showPauseScreen():
                 infoObject = pygame.display.Info()
                 window_width = infoObject.current_w
                 window_height = infoObject.current_h
-                windowUpdate()
-                showPauseScreen()
+                window_update()
+                show_pause_screen()
                 return
             if event.type == pygame.KEYDOWN:
                 keys = pygame.key.get_pressed()
@@ -87,7 +87,7 @@ def showPauseScreen():
                     return
 
 
-def generateLevel():
+def generate_level():
     level = list()
     for i in range(random.randint(1, 5)):
         for j in range(random.randint(1, 10)):
@@ -95,7 +95,7 @@ def generateLevel():
 
 
 
-def runArch(speed):
+def run_arch(speed):
     global window_height, window_width, platform_pos
     direction = NONE
     while True:
@@ -110,7 +110,7 @@ def runArch(speed):
                 if keys[pygame.K_d]:
                     direction = RIGHT
                 if keys[pygame.K_SPACE]:
-                    showPauseScreen()
+                    show_pause_screen()
             if event.type == pygame.VIDEORESIZE:
                 infoObject = pygame.display.Info()
                 window_width = infoObject.current_w
@@ -118,7 +118,7 @@ def runArch(speed):
                 if direction == NONE:
                     platform_pos[0] = window_width // 2 - platform_width // 2
                     platform_pos[1] = window_height - 50
-                windowUpdate()
+                window_update()
         if platform_pos[0] <= 0 or platform_pos[0] + platform_width >= window_width:
             direction = not(direction)
         if direction == RIGHT:
@@ -126,10 +126,9 @@ def runArch(speed):
         if direction == LEFT:
             speed = -SPEED
         platform_pos[0] += speed
-        windowUpdate()
+        window_update()
         pygame.time.Clock().tick(FPS)
 
 
 if __name__ == '__main__':
     main()
-
