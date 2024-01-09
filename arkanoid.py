@@ -1,6 +1,6 @@
-import pygame
 import random
 
+import pygame
 
 FPS = 60
 SPEED = 5
@@ -21,6 +21,8 @@ background_color = WHITE
 platform_pos = []
 platform_width = 0
 platform_height = 0
+
+level = list()
 
 
 def main():
@@ -62,6 +64,7 @@ def show_pause_text():
     text_width, text_height = font_continue.size("Нажмите пробел, чтобы продолжить")
     screen.blit(text_continue, (window_width // 2 - text_width // 2, window_height // 1.75))
 
+
 def show_pause_screen():
     global window_width, window_height
     pause = pygame.Surface((window_width, window_height), pygame.SRCALPHA)
@@ -75,9 +78,9 @@ def show_pause_screen():
                 pygame.quit()
                 quit()
             if event.type == pygame.VIDEORESIZE:
-                infoObject = pygame.display.Info()
-                window_width = infoObject.current_w
-                window_height = infoObject.current_h
+                info_object = pygame.display.Info()
+                window_width = info_object.current_w
+                window_height = info_object.current_h
                 window_update()
                 show_pause_screen()
                 return
@@ -88,11 +91,9 @@ def show_pause_screen():
 
 
 def generate_level():
-    level = list()
     for i in range(random.randint(1, 5)):
         for j in range(random.randint(1, 10)):
             pass
-
 
 
 def run_arch(speed):
@@ -112,15 +113,15 @@ def run_arch(speed):
                 if keys[pygame.K_SPACE]:
                     show_pause_screen()
             if event.type == pygame.VIDEORESIZE:
-                infoObject = pygame.display.Info()
-                window_width = infoObject.current_w
-                window_height = infoObject.current_h
+                info_object = pygame.display.Info()
+                window_width = info_object.current_w
+                window_height = info_object.current_h
                 if direction == NONE:
                     platform_pos[0] = window_width // 2 - platform_width // 2
                     platform_pos[1] = window_height - 50
                 window_update()
         if platform_pos[0] <= 0 or platform_pos[0] + platform_width >= window_width:
-            direction = not(direction)
+            direction = not direction
         if direction == RIGHT:
             speed = SPEED
         if direction == LEFT:
